@@ -75,3 +75,32 @@ productImage.addEventListener("change", function (e) {
     reader.readAsDataURL(file);
 
 });
+const sizeBoxes = document.querySelectorAll(".sizes input");
+
+const previewSizes = document.getElementById("previewSizes");
+
+function updateSizes(){
+
+const selected=[];
+
+sizeBoxes.forEach(box=>{
+
+if(box.checked){
+
+selected.push(box.value);
+
+}
+
+});
+
+previewSizes.textContent="سایزها: "+selected.join(" | ");
+
+}
+
+sizeBoxes.forEach(box=>{
+
+box.addEventListener("change",updateSizes);
+
+});
+
+updateSizes();
