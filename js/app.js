@@ -12,6 +12,8 @@ const productImage = document.getElementById("productImage");
 const hero = document.getElementById("hero");
 const thumb = document.getElementById("thumb");
 
+const color = document.getElementById("color");
+const previewColor = document.getElementById("previewColor");
 // تغییر نام مدل
 modelName.addEventListener("input", function () {
     previewName.textContent = this.value || "نام مدل";
@@ -104,3 +106,79 @@ box.addEventListener("change",updateSizes);
 });
 
 updateSizes();
+// =======================
+// رنگ های هر جنس
+// =======================
+
+const materialColors = {
+
+    "استیل 304 دست ساز": [
+        "سیلور",
+        "طلایی PVD",
+        "مشکی مات استاتیک"
+    ],
+
+    "استیل 304 پرسی": [
+        "سیلور",
+        "طلایی PVD",
+        "مشکی مات استاتیک"
+    ],
+
+    "ABS/استیل": [
+        "سیلور",
+        "طلایی PVD",
+        "مشکی مات استاتیک"
+    ],
+
+    "برنجی": [
+        "طلایی براق",
+        "طلایی مات",
+        "رزگلد",
+        "زیتونی",
+        "سفید",
+        "مشکی"
+    ]
+
+};
+
+// پر کردن لیست رنگ ها
+function updateColorOptions() {
+
+    color.innerHTML = "";
+
+    const colors = materialColors[material.value];
+
+    colors.forEach(function(item){
+
+        const option = document.createElement("option");
+
+        option.value = item;
+
+        option.textContent = item;
+
+        color.appendChild(option);
+
+    });
+
+    previewColor.textContent = color.value;
+
+}
+
+// تغییر جنس
+material.addEventListener("change", function(){
+
+    previewMaterial.textContent = material.value;
+
+    updateColorOptions();
+
+});
+
+// تغییر رنگ
+color.addEventListener("change", function(){
+
+    previewColor.textContent = color.value;
+
+});
+
+// بارگذاری اولیه
+updateColorOptions();
