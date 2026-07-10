@@ -17,38 +17,49 @@
 
 <div class="app">
 
-    <aside class="sidebar">
+<!-- ===========================
+پنل تنظیمات
+=========================== -->
 
-        <h1>AGER</h1>
+<aside class="sidebar">
 
-        <p>Catalog Builder</p>
+<div class="logo">
 
-        <hr>
+<h1>AGER</h1>
 
-        <label>نام مدل</label>
+<p>Catalog Builder</p>
 
-        <input
-            type="text"
-            id="modelName"
-            placeholder="مثلاً ویو">
+</div>
 
-        <label>جنس</label>
+<hr>
 
-    <select id="material">
+<label>نام مدل</label>
 
-    <option>استیل 304 دست ساز</option>
+<input
+type="text"
+id="modelName"
+placeholder="مثلاً زیگزاگ">
 
-    <option>استیل 304 پرسی</option>
+<label>جنس</label>
 
-    <option>ABS/استیل</option>
+<select id="material">
 
-    <option>برنجی</option>
+<option>استیل 304 دست ساز</option>
+
+<option>استیل 304 پرسی</option>
+
+<option>ABS/استیل</option>
+
+<option>برنجی</option>
+
+</select>
+
 <label>رنگ</label>
 
 <select id="color">
 
 </select>
-</select>
+
 <label>سایزها</label>
 
 <div class="sizes">
@@ -76,88 +87,33 @@
 <label><input type="checkbox" value="120">120</label>
 
 </div>
-        <label>عکس اصلی</label>
 
-        <input
-            type="file"
-            id="mainImage"
-            accept="image/*">
+<div class="buttons">
 
-        <label>عکس محصول</label>
+<button id="selectAllSizes">
 
-        <input
-            type="file"
-            id="productImage"
-            accept="image/*">
+انتخاب همه
 
-        <button>
+</button>
 
-ساخت کاتالوگ
+<button id="clearAllSizes">
 
-        </button>
+حذف همه
 
-    </aside>
-
-
-
-    <main class="workspace">
-
-        <div class="page">
-
-            <div class="brand">
-
-AGER
-
-            </div>
-
-            <div
-                class="hero"
-                id="hero">
-
-                عکس اصلی
-
-            </div>
-
-            <div class="bottom">
-
-                <div
-                    class="thumb"
-                    id="thumb">
-
-                    عکس محصول
-
-                </div>
-
-                <div class="details">
-
-                    <h2 id="previewName">
-
-نام مدل
-
-<div class="details">
-
-    <h2 id="previewName">نام مدل</h2>
-
-    <p id="previewMaterial">استیل 304 دست ساز</p>
-
-    <p id="previewSizes">سایزها:</p>
-
-    <p>دارای سوپاپ (سوسکگیر)</p>
+</button>
 
 </div>
 
-                </div>
+<label>عکس محیط (فتومونتاژ)</label>
 
-            </div>
+<input
+type="file"
+id="mainImage"
+accept="image/*">
 
-        </div>
+<label>عکس محصول</label>
 
-    </main>
-
-</div>
-
-<script src="js/app.js"></script>
-
-</body>
-
-</html>
+<input
+type="file"
+id="productImage"
+accept="image/*">
