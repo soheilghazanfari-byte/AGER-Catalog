@@ -2,179 +2,158 @@
 <html lang="fa" dir="rtl">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>AGER Catalog Builder</title>
+<meta charset="UTF-8">
 
-    <link rel="stylesheet" href="style.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>AGER Catalog Builder</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+
 </head>
 
 <body>
 
-    <header class="header">
+<div class="app">
 
-        <div class="logo">
-            AGER
-        </div>
+    <aside class="sidebar">
 
-        <div class="title">
-            AGER Catalog Builder
-        </div>
+        <h1>AGER</h1>
 
-    </header>
+        <p>Catalog Builder</p>
+
+        <hr>
+
+        <label>نام مدل</label>
+
+        <input
+            type="text"
+            id="modelName"
+            placeholder="مثلاً ویو">
+
+        <label>جنس</label>
+
+        <select id="material">
+
+            <option>استیل 304 دست ساز</option>
+
+            <option>برنجی</option>
+
+            <option>استیل پرسی</option>
+
+        </select>
+
+        <label>عکس اصلی</label>
+
+        <input
+            type="file"
+            id="mainImage"
+            accept="image/*">
+
+        <label>عکس محصول</label>
+
+        <input
+            type="file"
+            id="productImage"
+            accept="image/*">
+
+        <button>
+
+ساخت کاتالوگ
+
+        </button>
+
+    </aside>
 
 
-    <div class="container">
 
-        <!-- پنل سمت چپ -->
+    <main class="workspace">
 
-        <aside class="sidebar">
+        <div class="page">
 
-            <h2>اطلاعات محصول</h2>
+            <div class="brand">
 
-            <label>نام مدل</label>
-            <input type="text" id="model" placeholder="مثلاً ویو">
-
-            <label>جنس</label>
-
-            <select id="material">
-
-                <option>استیل 304 دست ساز</option>
-
-                <option>استیل 304 پرسی</option>
-
-                <option>برنجی</option>
-
-                <option>استیل پلاستیک</option>
-
-            </select>
-
-
-            <label>رنگ ها</label>
-
-            <div class="checkbox">
-
-                <label><input type="checkbox" checked> سیلور</label>
-
-                <label><input type="checkbox" checked> طلایی PVD</label>
-
-                <label><input type="checkbox" checked> مشکی استاتیک</label>
+AGER
 
             </div>
 
+            <div
+                class="hero"
+                id="hero">
 
-            <label>عکس اصلی</label>
+                عکس اصلی
 
-            <input type="file" id="mainImage" accept="image/*">
+            </div>
 
+            <div class="bottom">
 
-            <label>عکس محصول</label>
+                <div
+                    class="thumb"
+                    id="thumb">
 
-            <input type="file" id="smallImage" accept="image/*">
-
-
-            <button id="build">
-                ساخت کاتالوگ
-            </button>
-
-        </aside>
-
-
-
-        <!-- پیش نمایش -->
-
-        <main class="preview">
-
-            <div class="paper">
-
-                <div class="catalog-header">
-
-                    <h1>AGER</h1>
+                    عکس محصول
 
                 </div>
 
+                <div class="details">
 
-                <div class="big-photo">
+                    <h2 id="previewName">
 
-                    عکس اصلی
+نام مدل
 
-                </div>
+                    </h2>
 
+                    <p id="previewMaterial">
 
-                <div class="bottom">
+استیل 304 دست ساز
 
-                    <div class="small-photo">
+                    </p>
 
-                        عکس محصول
+                    <p>
 
-                    </div>
+دارای سوپاپ (سوسکگیر)
 
+                    </p>
 
-                    <div class="info">
+                    <p>
 
-                        <h2 id="previewModel">
-                            نام مدل
-                        </h2>
+۱۰×۱۰
 
-                        <p>
-                            استیل 304 دست ساز
-                        </p>
+۳۰
 
-                        <p>
-                            دارای سوپاپ (سوسکگیر)
-                        </p>
+۴۰
 
-                        <p>
+۵۰
 
-                            سایزها
+۶۰
 
-                        </p>
+۷۰
 
-                        <p>
+۸۰
 
-                            10×10
+۹۰
 
-                            30
+۱۰۰
 
-                            40
+۱۱۰
 
-                            50
+۱۲۰
 
-                            60
-
-                            70
-
-                            80
-
-                            90
-
-                            100
-
-                            110
-
-                            120
-
-                        </p>
-
-                    </div>
+                    </p>
 
                 </div>
 
             </div>
 
-        </main>
+        </div>
 
-    </div>
+    </main>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="script.js"></script>
+</div>
+
+<script src="js/app.js"></script>
 
 </body>
+
 </html>
