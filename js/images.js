@@ -8,7 +8,7 @@ function loadImages() {
     const productInput = document.getElementById("productInput");
 
     const hero = document.getElementById("hero");
-    const thumb = document.getElementById("thumb");
+    const thumb = document.getElementById("productImage");
 
     // عکس محیط
     heroInput.addEventListener("change", function () {
