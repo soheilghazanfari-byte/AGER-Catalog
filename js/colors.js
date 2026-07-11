@@ -1,74 +1,274 @@
-// =====================================
-// colors.js
-// =====================================
+/* =====================================
+   AGER Catalog Builder
+   colors.js
 
-const materialColors = {
+   Material Based Color Manager
+===================================== */
 
-    "استیل 304 دست ساز": [
-        "سیلور",
-        "طلایی PVD",
-        "مشکی مات استاتیک"
+
+const AGER_COLORS = {
+
+
+    steel304: [
+
+        {
+            id: "silver",
+            name: "Silver",
+            title: "نقره‌ای"
+        },
+
+
+        {
+            id: "gold-pvd",
+            name: "Gold PVD",
+            title: "طلایی PVD"
+        },
+
+
+        {
+            id: "black-matte",
+            name: "Matte Black",
+            title: "مشکی مات"
+        }
+
+
     ],
 
-    "استیل 304 پرسی": [
-        "سیلور",
-        "طلایی PVD",
-        "مشکی مات استاتیک"
-    ],
 
-    "ABS/استیل": [
-        "سیلور",
-        "طلایی PVD",
-        "مشکی مات استاتیک"
-    ],
 
-    "برنجی": [
-        "طلایی براق",
-        "طلایی مات",
-        "رزگلد",
-        "زیتونی",
-        "سفید",
-        "مشکی"
+    brass: [
+
+        {
+            id: "brass-natural",
+            name: "Natural Brass",
+            title: "برنج طبیعی"
+        },
+
+
+        {
+            id: "gold-pvd",
+            name: "Gold PVD",
+            title: "طلایی PVD"
+        },
+
+
+        {
+            id: "black",
+            name: "Black Finish",
+            title: "مشکی"
+        }
+
+
     ]
 
 };
 
-function loadColors() {
 
-    const material = document.getElementById("material");
-    const color = document.getElementById("color");
-    const previewMaterial = document.getElementById("previewMaterial");
-    const previewColor = document.getElementById("previewColor");
 
-    function updateColors() {
 
-        previewMaterial.textContent = material.value;
 
-        color.innerHTML = "";
+/* =====================================
+   ELEMENTS
+===================================== */
 
-        materialColors[material.value].forEach(item => {
 
-            const option = document.createElement("option");
+const materialSelect =
+document.getElementById("materialSelect");
 
-            option.value = item;
-            option.textContent = item;
 
-            color.appendChild(option);
+const colorSelect =
+document.getElementById("colorSelect");
 
-        });
 
-        previewColor.textContent = color.value;
+
+
+
+/* =====================================
+   LOAD COLORS BY MATERIAL
+===================================== */
+
+
+function loadColors(material){
+
+
+    if(!colorSelect)
+        return;
+
+
+
+    colorSelect.innerHTML="";
+
+
+
+    if(!material || !AGER_COLORS[material]){
+
+
+        colorSelect.innerHTML =
+        `
+        <option>
+        ابتدا جنس را انتخاب کنید
+        </option>
+        `;
+
+
+        return;
 
     }
 
-    material.addEventListener("change", updateColors);
 
-    color.addEventListener("change", () => {
 
-        previewColor.textContent = color.value;
+
+    AGER_COLORS[material]
+    .forEach(color=>{
+
+
+        const option =
+        document.createElement("option");
+
+
+        option.value =
+        color.id;
+
+
+        option.textContent =
+        color.title;
+
+
+        option.dataset.name =
+        color.name;
+
+
+        colorSelect.appendChild(option);
+
+
 
     });
 
-    updateColors();
+
+
+    colorSelect.dispatchEvent(
+        new Event("change")
+    );
 
 }
+
+
+
+
+
+
+
+/* =====================================
+   MATERIAL CHANGE EVENT
+===================================== */
+
+
+if(materialSelect){
+
+
+    materialSelect.addEventListener(
+        "change",
+        function(){
+
+
+            loadColors(
+                this.value
+            );
+
+
+        }
+    );
+
+
+}
+
+
+
+
+
+
+
+
+/* =====================================
+   COLOR CHANGE EVENT
+===================================== */
+
+
+if(colorSelect){
+
+
+    colorSelect.addEventListener(
+        "change",
+        function(){
+
+
+            const selected =
+            this.options[
+                this.selectedIndex
+            ];
+
+
+
+            const showColor =
+            document.getElementById(
+                "showColor"
+            );
+
+
+
+            if(showColor && selected){
+
+
+                showColor.textContent =
+                selected.textContent;
+
+
+            }
+
+
+
+            document.dispatchEvent(
+
+                new CustomEvent(
+                    "agerColorChanged",
+                    {
+
+                        detail:{
+
+                            id:this.value,
+
+                            name:
+                            selected.dataset.name
+
+                        }
+
+                    }
+
+                )
+
+            );
+
+
+
+        }
+    );
+
+}
+
+
+
+
+
+
+
+/* =====================================
+   PUBLIC API
+===================================== */
+
+
+window.AGER_COLORS =
+AGER_COLORS;
+
+
+window.loadAGERColors =
+loadColors;
