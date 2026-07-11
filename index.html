@@ -15,7 +15,170 @@
 
 <body>
 
-<div id="app"></div>
+<div class="container">
+
+    <!-- پنل سمت چپ -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <h1>AGER</h1>
+
+            <p>Catalog Builder</p>
+
+        </div>
+
+        <div class="form">
+
+            <label>نام مدل</label>
+            <input type="text" id="modelName">
+
+            <label>جنس</label>
+
+            <select id="material"></select>
+
+            <label>رنگ</label>
+
+            <select id="color"></select>
+
+            <label>سایزها</label>
+
+            <div id="sizes"></div>
+
+            <button id="selectAll">
+                انتخاب همه
+            </button>
+
+            <button id="clearAll">
+                حذف همه
+            </button>
+
+            <label>عکس محیط</label>
+
+            <input
+                type="file"
+                id="heroInput"
+                accept="image/*">
+
+            <label>عکس محصول</label>
+
+            <input
+                type="file"
+                id="productInput"
+                accept="image/*">
+
+            <button id="exportPNG">
+
+                خروجی PNG
+
+            </button>
+
+            <button id="exportPDF">
+
+                خروجی PDF
+
+            </button>
+
+        </div>
+
+    </aside>
+
+    <!-- صفحه کاتالوگ -->
+
+    <main class="workspace">
+
+        <div class="page" id="catalogPage">
+
+            <header>
+
+                <img
+                    src="assets/logo.png"
+                    class="logo">
+
+            </header>
+
+            <section
+                class="hero"
+                id="hero">
+
+            </section>
+
+            <section class="info">
+
+                <div
+                    class="productImage"
+                    id="productImage">
+
+                </div>
+
+                <div class="details">
+
+                    <h2 id="previewName">
+
+                        نام مدل
+
+                    </h2>
+
+                    <p>
+
+                        <strong>جنس :</strong>
+
+                        <span id="previewMaterial"></span>
+
+                    </p>
+
+                    <p>
+
+                        <strong>رنگ :</strong>
+
+                        <span id="previewColor"></span>
+
+                    </p>
+
+                    <p id="previewSizes"></p>
+
+                    <p>
+
+                        دارای سوپاپ (سوسکگیر)
+
+                    </p>
+
+                </div>
+
+            </section>
+
+            <footer>
+
+                <img
+                    src="assets/qr.png"
+                    class="qr">
+
+                <div>
+
+                    <strong>AGER</strong>
+
+                    <br>
+
+                    ager.co
+
+                    <br>
+
+                    09121974421
+
+                    <br>
+
+                    09125483963
+
+                </div>
+
+            </footer>
+
+        </div>
+
+    </main>
+
+</div>
 
 <script src="js/colors.js"></script>
 <script src="js/sizes.js"></script>
