@@ -5,9 +5,14 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
+    alert("app.js اجرا شد");
+
     loadColors();
     loadSizes();
     loadImages();
+
+    ...
+});
 
     const modelInput = document.getElementById("modelName");
     const previewName = document.getElementById("previewName");
