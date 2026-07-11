@@ -1,209 +1,159 @@
-// ===============================
-// AGER Catalog Builder
-// ===============================
+// =====================================
+// AGER Catalog Builder v2
+// app.js
+// =====================================
 
-// عناصر صفحه
-const modelName = document.getElementById("modelName");
-const previewName = document.getElementById("previewName");
+// محل ساخت برنامه
+const app = document.getElementById("app");
 
-const material = document.getElementById("material");
-const previewMaterial = document.getElementById("previewMaterial");
+// ساخت رابط کاربری
+app.innerHTML = `
+<div class="sidebar">
 
-const color = document.getElementById("color");
-const previewColor = document.getElementById("previewColor");
+    <h1>AGER</h1>
+    <p>Catalog Builder</p>
 
-const mainImage = document.getElementById("mainImage");
-const productImage = document.getElementById("productImage");
+    <label>نام مدل</label>
+    <input type="text" id="modelName" placeholder="مثلاً زیگزاگ">
 
-const hero = document.getElementById("hero");
-const thumb = document.getElementById("thumb");
+    <label>جنس</label>
+    <select id="material">
+        <option>استیل 304 دست ساز</option>
+        <option>استیل 304 پرسی</option>
+        <option>ABS/استیل</option>
+        <option>برنجی</option>
+    </select>
 
-const previewSizes = document.getElementById("previewSizes");
-const sizeBoxes = document.querySelectorAll(".sizes input");
+    <label>رنگ</label>
+    <select id="color"></select>
 
-// ===============================
-// نام مدل
-// ===============================
+    <label>سایزها</label>
 
-modelName.addEventListener("input", () => {
-    previewName.textContent =
-        modelName.value.trim() || "نام مدل";
-});
+    <div id="sizes"></div>
 
-// ===============================
-// رنگ های هر جنس
-// ===============================
+    <button id="selectAll">
+        انتخاب همه سایزها
+    </button>
 
-const materialColors = {
+    <button id="clearAll">
+        حذف همه
+    </button>
 
-    "استیل 304 دست ساز": [
-        "سیلور",
-        "طلایی PVD",
-        "مشکی مات استاتیک"
-    ],
+    <label>عکس محیط</label>
 
-    "استیل 304 پرسی": [
-        "سیلور",
-        "طلایی PVD",
-        "مشکی مات استاتیک"
-    ],
+    <input type="file"
+           id="heroInput"
+           accept="image/*">
 
-    "ABS/استیل": [
-        "سیلور",
-        "طلایی PVD",
-        "مشکی مات استاتیک"
-    ],
+    <label>عکس محصول</label>
 
-    "برنجی": [
-        "طلایی براق",
-        "طلایی مات",
-        "رزگلد",
-        "زیتونی",
-        "سفید",
-        "مشکی"
-    ]
+    <input type="file"
+           id="productInput"
+           accept="image/*">
 
-};
+</div>
 
-// ===============================
-// بروزرسانی لیست رنگ
-// ===============================
+<div class="workspace">
 
-function updateColorOptions() {
+<div class="page">
 
-    previewMaterial.textContent = material.value;
+<div class="header">
 
-    color.innerHTML = "";
+<h1>AGER</h1>
 
-    const colors = materialColors[material.value] || [];
+<p>Premium Floor Drain</p>
 
-    colors.forEach(c => {
+</div>
 
-        const option = document.createElement("option");
+<div class="hero" id="hero">
 
-        option.value = c;
-        option.textContent = c;
+عکس محیط
 
-        color.appendChild(option);
+</div>
 
-    });
+<div class="content">
 
-    previewColor.textContent = color.value;
+<div class="thumb" id="thumb">
 
-}
+عکس محصول
 
-material.addEventListener("change", updateColorOptions);
+</div>
 
-color.addEventListener("change", () => {
+<div class="details">
 
-    previewColor.textContent = color.value;
+<h2 id="previewName">
 
-});
+نام مدل
 
-// ===============================
-// سایزها
-// ===============================
+</h2>
 
-function updateSizes() {
+<p>
 
-    const selected = [];
+<strong>جنس :</strong>
 
-    sizeBoxes.forEach(box => {
+<span id="previewMaterial">
 
-        if (box.checked) {
+استیل 304 دست ساز
 
-            selected.push(box.value);
+</span>
 
-        }
+</p>
 
-    });
+<p>
 
-    if (selected.length === 0) {
+<strong>رنگ :</strong>
 
-        previewSizes.textContent = "";
+<span id="previewColor">
 
-    } else {
+سیلور
 
-        previewSizes.textContent =
-            "سایزها: " + selected.join(" | ");
+</span>
 
-    }
+</p>
 
-}
+<p id="previewSizes"></p>
 
-sizeBoxes.forEach(box => {
+<p>
 
-    box.addEventListener("change", updateSizes);
+<strong>
 
-});
+دارای سوپاپ (سوسکگیر)
 
-// ===============================
-// عکس اصلی
-// ===============================
+</strong>
 
-mainImage.addEventListener("change", e => {
+</p>
 
-    const file = e.target.files[0];
+</div>
 
-    if (!file) return;
+</div>
 
-    const reader = new FileReader();
+<div class="footer">
 
-    reader.onload = ev => {
+<div>
 
-        hero.innerHTML = "";
+AGER
 
-        const img = document.createElement("img");
+</div>
 
-        img.src = ev.target.result;
+<div>
 
-        img.style.width = "100%";
-        img.style.height = "100%";
-        img.style.objectFit = "contain";
+Instagram : @ager.co
 
-        hero.appendChild(img);
+</div>
 
-    };
+<div>
 
-    reader.readAsDataURL(file);
+09121974421
 
-});
+<br>
 
-// ===============================
-// عکس محصول
-// ===============================
+09125483963
 
-productImage.addEventListener("change", e => {
+</div>
 
-    const file = e.target.files[0];
+</div>
 
-    if (!file) return;
+</div>
 
-    const reader = new FileReader();
-
-    reader.onload = ev => {
-
-        thumb.innerHTML = "";
-
-        const img = document.createElement("img");
-
-        img.src = ev.target.result;
-
-        img.style.width = "100%";
-        img.style.height = "100%";
-        img.style.objectFit = "contain";
-
-        thumb.appendChild(img);
-
-    };
-
-    reader.readAsDataURL(file);
-
-});
-
-// ===============================
-// شروع برنامه
-// ===============================
-
-updateColorOptions();
-updateSizes();
+</div>
+`;
