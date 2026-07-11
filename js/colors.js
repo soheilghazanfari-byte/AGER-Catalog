@@ -1,10 +1,7 @@
 /* =====================================
    AGER Catalog Builder
-   colors.js
-
-   Material Based Color Manager
+   colors.js (Version 2)
 ===================================== */
-
 
 const AGER_COLORS = {
 
@@ -33,91 +30,61 @@ const AGER_COLORS = {
 
 };
 
-
-
-
-/* =====================================
-   ELEMENTS
-===================================== */
-
-
 const materialSelect =
 document.getElementById("materialSelect");
-
 
 const colorSelect =
 document.getElementById("colorSelect");
 
-
+const showColor =
+document.getElementById("showColor");
 
 
 
 /* =====================================
-   LOAD COLORS BY MATERIAL
+   بارگذاری رنگ‌ها
 ===================================== */
 
+function loadColors(){
 
-function loadColors(material){
-
-
-    if(!colorSelect)
+    if(!materialSelect || !colorSelect)
         return;
 
-
+    const material = materialSelect.value;
 
     colorSelect.innerHTML="";
 
+    if(!AGER_COLORS[material]){
 
+        const option =
+        document.createElement("option");
 
-    if(!material || !AGER_COLORS[material]){
+        option.textContent="ابتدا جنس را انتخاب کنید";
 
+        option.value="";
 
-        colorSelect.innerHTML =
-        `
-        <option>
-        ابتدا جنس را انتخاب کنید
-        </option>
-        `;
-
+        colorSelect.appendChild(option);
 
         return;
 
     }
 
-
-
-
-    AGER_COLORS[material]
-    .forEach(color=>{
-
+    AGER_COLORS[material].forEach(color=>{
 
         const option =
         document.createElement("option");
 
+        option.value=color;
 
-        option.value =
-        color.id;
-
-
-        option.textContent =
-        color.title;
-
-
-        option.dataset.name =
-        color.name;
-
+        option.textContent=color;
 
         colorSelect.appendChild(option);
 
-
-
     });
 
+    colorSelect.selectedIndex=0;
 
-
-    colorSelect.dispatchEvent(
-        new Event("change")
-    );
+    showColor.textContent=colorSelect.value;
 
 }
 
@@ -126,32 +93,17 @@ function loadColors(material){
 
 
 
-
 /* =====================================
-   MATERIAL CHANGE EVENT
+   تغییر جنس
 ===================================== */
 
+materialSelect.addEventListener(
+"change",
+function(){
 
-if(materialSelect){
+    loadColors();
 
-
-    materialSelect.addEventListener(
-        "change",
-        function(){
-
-
-            loadColors(
-                this.value
-            );
-
-
-        }
-    );
-
-
-}
-
-
+});
 
 
 
@@ -159,71 +111,36 @@ if(materialSelect){
 
 
 /* =====================================
-   COLOR CHANGE EVENT
+   تغییر رنگ
 ===================================== */
 
+colorSelect.addEventListener(
+"change",
+function(){
 
-if(colorSelect){
+    showColor.textContent=this.value;
 
+    document.dispatchEvent(
 
-    colorSelect.addEventListener(
-        "change",
-        function(){
+        new CustomEvent(
 
+            "agerColorChanged",
 
-            const selected =
-            this.options[
-                this.selectedIndex
-            ];
+            {
 
+                detail:{
 
+                    color:this.value
 
-            const showColor =
-            document.getElementById(
-                "showColor"
-            );
-
-
-
-            if(showColor && selected){
-
-
-                showColor.textContent =
-                selected.textContent;
-
+                }
 
             }
 
+        )
 
-
-            document.dispatchEvent(
-
-                new CustomEvent(
-                    "agerColorChanged",
-                    {
-
-                        detail:{
-
-                            id:this.value,
-
-                            name:
-                            selected.dataset.name
-
-                        }
-
-                    }
-
-                )
-
-            );
-
-
-
-        }
     );
 
-}
-
+});
 
 
 
@@ -231,13 +148,26 @@ if(colorSelect){
 
 
 /* =====================================
-   PUBLIC API
+   شروع برنامه
 ===================================== */
 
+document.addEventListener(
+"DOMContentLoaded",
+function(){
 
-window.AGER_COLORS =
-AGER_COLORS;
+    loadColors();
+
+});
 
 
-window.loadAGERColors =
-loadColors;
+
+
+
+
+/* =====================================
+   Public API
+===================================== */
+
+window.AGER_COLORS = AGER_COLORS;
+
+window.loadAGERColors = loadColors;
