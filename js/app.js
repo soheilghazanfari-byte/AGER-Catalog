@@ -1,573 +1,597 @@
-/* =====================================
+/* ==========================================
    AGER Catalog Builder
    app.js
+   Version 3.0
+========================================== */
 
-   Main Application Controller
-===================================== */
+document.addEventListener("DOMContentLoaded", () => {
 
+    /*=========================
+      ELEMENTS
+    =========================*/
 
+    const modelInput =
+        document.getElementById("productModel");
 
-document.addEventListener(
-"DOMContentLoaded",
-function(){
+    const materialSelect =
+        document.getElementById("materialSelect");
 
+    const colorSelect =
+        document.getElementById("colorSelect");
 
+    const sizeSelect =
+        document.getElementById("sizeSelect");
 
-/* =========================
-   ELEMENTS
-========================= */
+    const customSize =
+        document.getElementById("customSize");
 
 
-const modelSelect =
-document.getElementById(
-"productModel"
-);
 
+    const showModel =
+        document.getElementById("showModel");
 
+    const showMaterial =
+        document.getElementById("showMaterial");
 
-const materialSelect =
-document.getElementById(
-"materialSelect"
-);
+    const showColor =
+        document.getElementById("showColor");
 
+    const showSize =
+        document.getElementById("showSize");
 
 
-const showModel =
-document.getElementById(
-"showModel"
-);
 
+    const status =
+        document.getElementById("statusMessage");
 
 
-const showMaterial =
-document.getElementById(
-"showMaterial"
-);
 
+    const qrContainer =
+        document.getElementById("qrCode");
 
 
-const qrContainer =
-document.getElementById(
-"qrCode"
-);
 
+    const newProjectBtn =
+        document.getElementById("newProjectBtn");
 
+    const saveProjectBtn =
+        document.getElementById("saveProjectBtn");
 
-const status =
-document.getElementById(
-"statusMessage"
-);
 
 
+    /*=========================
+      PROJECT DATA
+    =========================*/
 
+    const product = {
 
+        model: "",
 
+        material: "",
 
+        color: "",
 
+        size: ""
 
-/* =========================
-   PRODUCT DATA
-========================= */
+    };
 
 
-let AGER_PRODUCT = {
 
+    /*=========================
+      STATUS
+    =========================*/
 
-model:"",
+    function setStatus(text) {
 
-material:"",
+        if (!status) return;
 
-color:"",
+        status.textContent = text;
 
-size:""
+        clearTimeout(status.timer);
 
+        status.timer = setTimeout(() => {
 
-};
+            status.textContent =
+                "آماده طراحی کاتالوگ AGER";
 
+        }, 2500);
 
+    }
 
 
 
+    /*=========================
+      MODEL
+    =========================*/
 
+    if (modelInput) {
 
+        modelInput.addEventListener("input", function () {
 
-/* =========================
-   MODEL CHANGE
-========================= */
+            product.model =
+                this.value.trim();
 
+            if (showModel) {
 
-if(modelSelect){
+                showModel.textContent =
+                    product.model || "-";
 
+            }
 
-modelSelect.addEventListener(
-"change",
-function(){
+            updateQR();
 
+        });
 
-AGER_PRODUCT.model =
-this.value;
+    }
 
 
 
-if(showModel){
+    /*=========================
+      MATERIAL
+    =========================*/
 
+    if (materialSelect) {
 
-showModel.textContent =
-this.options[
-this.selectedIndex
-].textContent;
+        materialSelect.addEventListener(
+            "change",
+            function () {
 
+                product.material =
+                    this.options[
+                        this.selectedIndex
+                    ].textContent;
 
-}
+                if (showMaterial) {
 
+                    showMaterial.textContent =
+                        product.material;
 
+                }
 
-updateQR();
+                updateQR();
 
+            });
 
-setStatus(
-"مدل محصول انتخاب شد"
-);
+    }
 
 
 
-});
+    /*=========================
+      COLOR
+    =========================*/
 
-}
+    if (colorSelect) {
 
+        colorSelect.addEventListener(
+            "change",
+            function () {
 
+                product.color =
+                    this.value;
 
+                if (showColor) {
 
+                    showColor.textContent =
+                        product.color || "-";
 
+                }
 
+                updateQR();
 
+            });
 
-/* =========================
-   MATERIAL CHANGE
-========================= */
+    }
 
 
-if(materialSelect){
 
+    /*=========================
+      SIZE
+    =========================*/
 
-materialSelect.addEventListener(
-"change",
-function(){
+    if (sizeSelect) {
 
+        sizeSelect.addEventListener(
+            "change",
+            function () {
 
-AGER_PRODUCT.material =
-this.value;
+                if (this.value === "سفارشی") {
 
+                    if (customSize) {
 
+                        customSize.style.display =
+                            "block";
 
-if(showMaterial){
+                        customSize.focus();
 
+                    }
 
-showMaterial.textContent =
-this.options[
-this.selectedIndex
-].textContent;
+                    showSize.textContent = "-";
 
+                    product.size = "";
 
-}
+                }
 
+                else {
 
+                    if (customSize) {
 
-updateQR();
+                        customSize.style.display =
+                            "none";
 
+                        customSize.value = "";
 
-setStatus(
-"جنس محصول انتخاب شد"
-);
+                    }
 
+                    product.size = this.value;
 
+                    showSize.textContent =
+                        product.size;
 
-});
+                    updateQR();
 
-}
+                }
 
+            });
 
+    }
+        /*=========================
+      CUSTOM SIZE
+    =========================*/
 
+    if (customSize) {
 
+        customSize.addEventListener(
+            "input",
+            function () {
 
+                product.size =
+                    this.value.trim();
 
+                showSize.textContent =
+                    product.size || "-";
 
+                updateQR();
 
-/* =========================
-   COLOR EVENT
-========================= */
+            });
 
+    }
 
-document.addEventListener(
 
-"agerColorChanged",
 
-function(e){
+    /*=========================
+      QR CODE
+    =========================*/
 
+    function updateQR() {
 
-AGER_PRODUCT.color =
-e.detail.name;
+        if (!qrContainer) return;
 
+        qrContainer.innerHTML = "";
 
+        const qrText =
 
-updateQR();
+`AGER
 
+مدل:
+${product.model}
 
-setStatus(
-"رنگ محصول تغییر کرد"
-);
+جنس:
+${product.material}
 
+رنگ:
+${product.color}
 
-
-}
-
-);
-
-
-
-
-
-
-
-
-/* =========================
-   SIZE EVENT
-========================= */
-
-
-document.addEventListener(
-
-"agerSizeChanged",
-
-function(e){
-
-
-AGER_PRODUCT.size =
-e.detail.title;
-
-
-
-updateQR();
-
-
-setStatus(
-"سایز انتخاب شد"
-);
-
-
-
-}
-
-);
-
-
-
-
-
-
-
-
-/* =========================
-   QR CODE
-========================= */
-
-
-function updateQR(){
-
-
-if(!qrContainer)
-return;
-
-
-
-qrContainer.innerHTML="";
-
-
-
-let qrText = `
-
-AGER
-
-Model:
-${AGER_PRODUCT.model}
-
-Material:
-${AGER_PRODUCT.material}
-
-Color:
-${AGER_PRODUCT.color}
-
-Size:
-${AGER_PRODUCT.size}
+سایز:
+${product.size}
 
 Instagram:
 ager.co
 
-`;
+09121974421
+09125483963`;
 
+        new QRCode(
 
+            qrContainer,
 
+            {
 
+                text: qrText,
 
-new QRCode(
+                width: 100,
 
-qrContainer,
+                height: 100,
 
-{
+                correctLevel:
+                    QRCode.CorrectLevel.H
 
-text:qrText,
+            }
 
+        );
 
-width:100,
+    }
 
 
-height:100,
 
 
-correctLevel:
-QRCode.CorrectLevel.H
+    /*=========================
+      SAVE PROJECT
+    =========================*/
 
+    function saveProject() {
 
-}
+        localStorage.setItem(
 
-);
+            "AGER_PROJECT",
 
+            JSON.stringify(product)
 
+        );
 
-}
+        setStatus("پروژه ذخیره شد");
 
+    }
 
 
 
 
+    /*=========================
+      LOAD PROJECT
+    =========================*/
 
+    function loadProject() {
 
+        const data =
+            localStorage.getItem(
+                "AGER_PROJECT"
+            );
 
-/* =========================
-   STATUS
-========================= */
+        if (!data)
+            return;
 
+        const saved =
+            JSON.parse(data);
 
-function setStatus(message){
 
 
-if(status){
+        product.model =
+            saved.model || "";
 
+        product.material =
+            saved.material || "";
 
-status.textContent =
-message;
+        product.color =
+            saved.color || "";
 
+        product.size =
+            saved.size || "";
 
 
-setTimeout(()=>{
 
+        if (modelInput)
+            modelInput.value =
+                product.model;
 
-status.textContent =
-"آماده طراحی کاتالوگ AGER";
 
 
-},2500);
+        if (showModel)
+            showModel.textContent =
+                product.model || "-";
 
 
 
-}
+        if (showMaterial)
+            showMaterial.textContent =
+                product.material || "-";
 
 
-}
 
+        if (showColor)
+            showColor.textContent =
+                product.color || "-";
 
 
 
+        if (showSize)
+            showSize.textContent =
+                product.size || "-";
 
 
 
+        updateQR();
 
-/* =========================
-   NEW PROJECT
-========================= */
+    }
 
 
-const newProjectBtn =
-document.getElementById(
-"newProjectBtn"
-);
 
 
+    /*=========================
+      NEW PROJECT
+    =========================*/
 
-if(newProjectBtn){
+    function newProject() {
 
+        if (modelInput)
+            modelInput.value = "";
 
-newProjectBtn.addEventListener(
-"click",
-function(){
+        if (materialSelect)
+            materialSelect.selectedIndex = 0;
 
+        if (colorSelect)
+            colorSelect.innerHTML =
+                "<option>ابتدا جنس را انتخاب کنید</option>";
 
-AGER_PRODUCT={
+        if (sizeSelect)
+            sizeSelect.selectedIndex = 0;
 
-model:"",
+        if (customSize) {
 
-material:"",
+            customSize.value = "";
 
-color:"",
+            customSize.style.display =
+                "none";
 
-size:""
+        }
 
-};
 
 
+        product.model = "";
+        product.material = "";
+        product.color = "";
+        product.size = "";
 
-if(showModel)
-showModel.textContent="-";
 
 
-if(showMaterial)
-showMaterial.textContent="-";
+        showModel.textContent = "-";
+        showMaterial.textContent = "-";
+        showColor.textContent = "-";
+        showSize.textContent = "-";
 
 
 
-document.getElementById(
-"showColor"
-).textContent="-";
+        qrContainer.innerHTML = "";
 
+        setStatus("پروژه جدید ایجاد شد");
 
+    }
 
-document.getElementById(
-"showSize"
-).textContent="-";
 
 
 
-qrContainer.innerHTML="";
+    /*=========================
+      BUTTONS
+    =========================*/
 
+    if (saveProjectBtn) {
 
+        saveProjectBtn.addEventListener(
 
-setStatus(
-"پروژه جدید ایجاد شد"
-);
+            "click",
 
+            saveProject
 
+        );
 
-});
+    }
 
-}
 
 
+    if (newProjectBtn) {
 
+        newProjectBtn.addEventListener(
 
+            "click",
 
+            newProject
 
+        );
 
+    }
+        /*=========================
+      COLOR EVENT
+    =========================*/
 
-/* =========================
-   SAVE PROJECT
-========================= */
+    document.addEventListener(
 
+        "agerColorChanged",
 
-const saveProjectBtn =
-document.getElementById(
-"saveProjectBtn"
-);
+        function (e) {
 
+            if (!e.detail) return;
 
+            if (e.detail.color) {
 
-if(saveProjectBtn){
+                product.color =
+                    e.detail.color;
 
+            }
 
-saveProjectBtn.addEventListener(
-"click",
-function(){
+            else if (e.detail.name) {
 
+                product.color =
+                    e.detail.name;
 
+            }
 
-localStorage.setItem(
+            if (showColor) {
 
-"AGER_PROJECT",
+                showColor.textContent =
+                    product.color || "-";
 
-JSON.stringify(
-AGER_PRODUCT
-)
+            }
 
-);
+            updateQR();
 
+        }
 
+    );
 
-setStatus(
-"پروژه ذخیره شد"
-);
 
 
+    /*=========================
+      SIZE EVENT
+    =========================*/
 
-});
+    document.addEventListener(
 
-}
+        "agerSizeChanged",
 
+        function (e) {
 
+            if (!e.detail) return;
 
+            if (e.detail.title) {
 
+                product.size =
+                    e.detail.title;
 
+            }
 
+            if (showSize) {
 
+                showSize.textContent =
+                    product.size || "-";
 
-/* =========================
-   LOAD PROJECT
-========================= */
+            }
 
+            updateQR();
 
-function loadProject(){
+        }
 
+    );
 
-const saved =
-localStorage.getItem(
-"AGER_PROJECT"
-);
 
 
+    /*=========================
+      FIRST LOAD
+    =========================*/
 
-if(!saved)
-return;
+    loadProject();
 
+    updateQR();
 
+    setStatus("AGER Catalog Builder آماده است.");
 
-AGER_PRODUCT =
-JSON.parse(saved);
 
 
+    /*=========================
+      PUBLIC API
+    =========================*/
 
-}
+    window.AGER_APP = {
 
+        product,
 
+        updateQR,
 
-loadProject();
+        saveProject,
 
+        loadProject,
 
+        newProject,
 
+        setStatus
 
-
-
-
-
-/* =========================
-   PUBLIC ACCESS
-========================= */
-
-
-window.AGER_APP = {
-
-
-product:
-AGER_PRODUCT,
-
-
-qr:
-updateQR,
-
-
-status:
-setStatus
-
-
-};
-
-
+    };
 
 });
