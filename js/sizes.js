@@ -1,162 +1,89 @@
 /* =====================================
    AGER Catalog Builder
-   sizes.js
-
-   Product Size Manager
+   sizes.js  (Version 2)
 ===================================== */
+
 const AGER_SIZES = [
 
     "10×10",
-
     "30",
-
     "40",
-
     "50",
-
     "60",
-
     "70",
-
     "80",
-
     "90",
-
     "100",
-
     "110",
-
     "120",
-
     "سفارشی"
 
 ];
-/* =====================================
-   ELEMENTS
-===================================== */
-
-
-const productModel =
-document.getElementById(
-    "productModel"
-);
-
 
 const sizeSelect =
-document.getElementById(
-    "sizeSelect"
-);
+document.getElementById("sizeSelect");
+
+const showSize =
+document.getElementById("showSize");
 
 
+
+/* =====================================
+   ساخت گزینه سفارشی
+===================================== */
+
+let customSizeInput =
+document.getElementById("customSize");
+
+if(!customSizeInput){
+
+    customSizeInput =
+    document.createElement("input");
+
+    customSizeInput.type="text";
+
+    customSizeInput.id="customSize";
+
+    customSizeInput.placeholder="مثلاً 75 یا 15×15";
+
+    customSizeInput.style.display="none";
+
+    customSizeInput.style.marginTop="10px";
+
+    customSizeInput.className="custom-size-input";
+
+    sizeSelect.parentNode.appendChild(customSizeInput);
+
+}
 
 
 
 
 
 /* =====================================
-   LOAD SIZE LIST
+   بارگذاری سایزها
 ===================================== */
 
+function loadSizes(){
 
-function loadSizes() {
+    if(!sizeSelect)
+        return;
 
-    sizeSelect.innerHTML = "";
+    sizeSelect.innerHTML="";
 
-    AGER_SIZES.forEach(size => {
+    AGER_SIZES.forEach(size=>{
 
-        const option = document.createElement("option");
+        const option =
+        document.createElement("option");
 
-        option.value = size;
+        option.value=size;
 
-        option.textContent = size;
+        option.textContent=size;
 
         sizeSelect.appendChild(option);
 
     });
 
-}}
-
-
-
-    else if(
-        model==="square" ||
-        model==="zigzag"
-    ){
-
-        sizes =
-        AGER_SIZES.square;
-
-    }
-
-
-
-    else if(
-        model==="custom"
-    ){
-
-        sizes =
-        AGER_SIZES.custom;
-
-    }
-
-
-
-
-    else{
-
-
-        sizeSelect.innerHTML =
-        `
-        <option>
-        ابتدا مدل را انتخاب کنید
-        </option>
-        `;
-
-
-        return;
-
-    }
-
-
-
-
-
-
-
-    sizes.forEach(size=>{
-
-
-        const option =
-        document.createElement(
-            "option"
-        );
-
-
-
-        option.value =
-        size.id;
-
-
-
-        option.textContent =
-        size.title;
-
-
-
-        sizeSelect.appendChild(
-            option
-        );
-
-
-
-    });
-
-
-
-    sizeSelect.dispatchEvent(
-        new Event("change")
-    );
-
 }
 
 
@@ -164,96 +91,57 @@ function loadSizes() {
 
 
 
-
-
 /* =====================================
-   MODEL CHANGE
+   انتخاب سایز
 ===================================== */
-
-
-if(productModel){
-
-
-
-
-
-}
-
-
-
-
-
-
-
-
-/* =====================================
-   SIZE CHANGE
-===================================== */
-
-
-if(sizeSelect){
-
 
 sizeSelect.addEventListener(
 "change",
 function(){
 
+    const value=this.value;
 
+    if(value==="سفارشی"){
 
-    const selected =
-    this.options[
-        this.selectedIndex
-    ];
+        customSizeInput.style.display="block";
 
-
-
-    const showSize =
-    document.getElementById(
-        "showSize"
-    );
-
-
-
-    if(showSize && selected){
-
-
-        showSize.textContent =
-        selected.textContent;
-
+        showSize.textContent="-";
 
     }
 
+    else{
 
+        customSizeInput.style.display="none";
 
+        customSizeInput.value="";
 
-    document.dispatchEvent(
+        showSize.textContent=value;
 
-        new CustomEvent(
-            "agerSizeChanged",
-            {
+        document.dispatchEvent(
 
-                detail:{
+            new CustomEvent(
 
-                    id:this.value,
+                "agerSizeChanged",
 
-                    title:
-                    selected.textContent
+                {
+
+                    detail:{
+
+                        id:value,
+
+                        title:value
+
+                    }
 
                 }
 
-            }
+            )
 
-        )
+        );
 
-    );
-
-
+    }
 
 });
-
-
-}
-
 
 
 
@@ -262,18 +150,66 @@ function(){
 
 
 /* =====================================
-   PUBLIC ACCESS
+   سایز سفارشی
 ===================================== */
 
+customSizeInput.addEventListener(
+"input",
+function(){
 
-window.AGER_SIZES =
-AGER_SIZES;
+    showSize.textContent=this.value;
+
+    document.dispatchEvent(
+
+        new CustomEvent(
+
+            "agerSizeChanged",
+
+            {
+
+                detail:{
+
+                    id:"custom",
+
+                    title:this.value
+
+                }
+
+            )
+
+        )
+
+    );
+
+});
 
 
-window.loadAGERSizes =
-loadSizes;
-document.addEventListener("DOMContentLoaded", () => {
+
+
+
+
+
+/* =====================================
+   شروع برنامه
+===================================== */
+
+document.addEventListener(
+"DOMContentLoaded",
+function(){
 
     loadSizes();
 
 });
+
+
+
+
+
+
+/* =====================================
+   PUBLIC API
+===================================== */
+
+window.AGER_SIZES=AGER_SIZES;
+
+window.loadAGERSizes=loadSizes;
