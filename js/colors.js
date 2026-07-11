@@ -8,61 +8,30 @@
 
 const AGER_COLORS = {
 
-
     steel304: [
-
-        {
-            id: "silver",
-            name: "Silver",
-            title: "نقره‌ای"
-        },
-
-
-        {
-            id: "gold-pvd",
-            name: "Gold PVD",
-            title: "طلایی PVD"
-        },
-
-
-        {
-            id: "black-matte",
-            name: "Matte Black",
-            title: "مشکی مات"
-        }
-
-
+        "سیلور",
+        "طلایی PVD",
+        "مشکی"
     ],
 
-
+    abssteel: [
+        "سیلور",
+        "طلایی PVD",
+        "مشکی"
+    ],
 
     brass: [
-
-        {
-            id: "brass-natural",
-            name: "Natural Brass",
-            title: "برنج طبیعی"
-        },
-
-
-        {
-            id: "gold-pvd",
-            name: "Gold PVD",
-            title: "طلایی PVD"
-        },
-
-
-        {
-            id: "black",
-            name: "Black Finish",
-            title: "مشکی"
-        }
-
-
+        "سیلور",
+        "طلایی مات",
+        "طلایی براق",
+        "کرم براق",
+        "مشکی",
+        "سفید",
+        "رزگلد",
+        "زیتونی"
     ]
 
 };
-
 
 
 
