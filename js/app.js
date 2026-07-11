@@ -7,10 +7,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     alert("app.js اجرا شد");
 
-    loadColors();
-    loadSizes();
-    loadImages();
-
+loadColors();
+loadSizes();
+loadImages();
+initExport();
     ...
 });
 
