@@ -4,187 +4,615 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>AGER Catalog Builder</title>
 
+<meta name="description" content="AGER Professional Product Catalog Builder">
+
+<!-- Main Style -->
 <link rel="stylesheet" href="css/style.css">
+
+<!-- External Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 </head>
 
+
 <body>
 
-<div class="container">
 
-    <!-- پنل سمت چپ -->
+<!-- =========================
+     APP CONTAINER
+========================= -->
 
-    <aside class="sidebar">
+<div id="agerApp">
 
-        <div class="brand">
 
-            <h1>AGER</h1>
+<!-- =========================
+     TOP HEADER
+========================= -->
 
-            <p>Catalog Builder</p>
+<header class="top-header">
 
-        </div>
 
-        <div class="form">
+<div class="brand-area">
 
-            <label>نام مدل</label>
-            <input type="text" id="modelName">
+<div class="ager-logo">
 
-            <label>جنس</label>
+<span class="logo-main">
+AGER
+</span>
 
-            <select id="material"></select>
-
-            <label>رنگ</label>
-
-            <select id="color"></select>
-
-            <label>سایزها</label>
-
-            <div id="sizes"></div>
-
-            <button id="selectAll">
-                انتخاب همه
-            </button>
-
-            <button id="clearAll">
-                حذف همه
-            </button>
-
-            <label>عکس محیط</label>
-
-            <input
-                type="file"
-                id="heroInput"
-                accept="image/*">
-
-            <label>عکس محصول</label>
-
-            <input
-                type="file"
-                id="productInput"
-                accept="image/*">
-
-            <button id="exportPNG">
-
-                خروجی PNG
-
-            </button>
-
-            <button id="exportPDF">
-
-                خروجی PDF
-
-            </button>
-
-        </div>
-
-    </aside>
-
-    <!-- صفحه کاتالوگ -->
-
-    <main class="workspace">
-
-        <div class="page" id="catalogPage">
-
-            <header>
-
-                <img
-                    src="assets/logo.png"
-                    class="logo">
-
-            </header>
-
-            <section
-                class="hero"
-                id="hero">
-
-            </section>
-
-            <section class="info">
-
-                <div
-                    class="productImage"
-                    id="productImage">
-
-                </div>
-
-                <div class="details">
-
-                    <h2 id="previewName">
-
-                        نام مدل
-
-                    </h2>
-
-                    <p>
-
-                        <strong>جنس :</strong>
-
-                        <span id="previewMaterial"></span>
-
-                    </p>
-
-                    <p>
-
-                        <strong>رنگ :</strong>
-
-                        <span id="previewColor"></span>
-
-                    </p>
-
-                    <p id="previewSizes"></p>
-
-                    <p>
-
-                        دارای سوپاپ (سوسکگیر)
-
-                    </p>
-
-                </div>
-
-            </section>
-
-            <footer>
-
-                <img
-                    src="assets/qr.png"
-                    class="qr">
-
-                <div>
-
-                    <strong>AGER</strong>
-
-                    <br>
-
-                    ager.co
-
-                    <br>
-
-                    09121974421
-
-                    <br>
-
-                    09125483963
-
-                </div>
-
-            </footer>
-
-        </div>
-
-    </main>
+<span class="logo-sub">
+Premium Sanitary Products
+</span>
 
 </div>
 
+</div>
+
+
+
+<div class="header-actions">
+
+
+<button id="newProjectBtn">
+پروژه جدید
+</button>
+
+
+<button id="saveProjectBtn">
+ذخیره
+</button>
+
+
+<button id="exportPngBtn">
+PNG
+</button>
+
+
+<button id="exportPdfBtn">
+PDF
+</button>
+
+
+</div>
+
+
+</header>
+
+
+
+
+
+<!-- =========================
+     MAIN WORKSPACE
+========================= -->
+
+
+<main class="workspace">
+
+
+
+<!-- =========================
+     CONTROL PANEL
+========================= -->
+
+
+<aside class="control-panel">
+
+
+
+<h2>
+پنل مدیریت AGER
+</h2>
+
+
+
+<section class="control-box">
+
+
+<label>
+مدل محصول
+</label>
+
+
+<select id="productModel">
+
+<option value="">
+انتخاب مدل
+</option>
+
+<option value="zigzag">
+زیگزاگ
+</option>
+
+<option value="linear">
+خطی
+</option>
+
+<option value="square">
+مربعی
+</option>
+
+<option value="custom">
+سفارشی
+</option>
+
+
+</select>
+
+
+</section>
+
+
+
+
+
+<section class="control-box">
+
+
+<label>
+جنس محصول
+</label>
+
+
+<select id="materialSelect">
+
+
+<option value="">
+انتخاب جنس
+</option>
+
+
+<option value="steel304">
+استیل 304
+</option>
+
+
+<option value="brass">
+برنج
+</option>
+
+
+</select>
+
+
+</section>
+
+
+
+
+
+<section class="control-box">
+
+
+<label>
+رنگ محصول
+</label>
+
+
+<select id="colorSelect">
+
+
+<option>
+ابتدا جنس را انتخاب کنید
+</option>
+
+
+</select>
+
+
+</section>
+
+
+
+
+
+<section class="control-box">
+
+
+<label>
+سایز
+</label>
+
+
+<select id="sizeSelect">
+
+
+<option value="">
+انتخاب سایز
+</option>
+
+
+</select>
+
+
+</section>
+
+
+
+
+<section class="control-box upload-box">
+
+
+<label>
+تصویر محیط
+</label>
+
+
+<input 
+type="file"
+id="environmentUpload"
+accept="image/*"
+>
+
+
+
+<label>
+تصویر محصول
+</label>
+
+
+<input 
+type="file"
+id="productUpload"
+accept="image/*"
+>
+
+
+</section>
+
+
+
+
+<section class="control-box transform-box">
+
+
+<h3>
+تنظیمات تصویر
+</h3>
+
+
+<label>
+بزرگنمایی
+</label>
+
+
+<input 
+type="range"
+id="zoomControl"
+min="50"
+max="200"
+value="100"
+>
+
+
+
+<label>
+چرخش
+</label>
+
+
+<input 
+type="range"
+id="rotateControl"
+min="-180"
+max="180"
+value="0"
+>
+
+
+
+<label>
+شفافیت
+</label>
+
+
+<input 
+type="range"
+id="opacityControl"
+min="10"
+max="100"
+value="100"
+>
+
+
+</section>
+
+
+
+</aside>
+<!-- =========================
+     A4 CATALOG PAGE
+========================= -->
+
+
+<section class="catalog-area">
+
+
+<div id="a4Page" class="a4-page">
+
+
+
+<!-- BACKGROUND IMAGE -->
+
+<div 
+id="environmentLayer"
+class="environment-layer">
+</div>
+
+
+
+
+<!-- PRODUCT IMAGE LAYER -->
+
+<div 
+id="productLayer"
+class="product-layer"
+draggable="false">
+
+
+<img 
+id="productImage"
+src=""
+alt="AGER Product">
+
+
+</div>
+
+
+
+
+
+<!-- PRODUCT INFORMATION -->
+
+<div class="product-info">
+
+
+
+<h1 id="catalogTitle">
+AGER
+</h1>
+
+
+
+<div class="info-line">
+
+<span>
+مدل:
+</span>
+
+<strong id="showModel">
+-
+</strong>
+
+</div>
+
+
+
+<div class="info-line">
+
+<span>
+جنس:
+</span>
+
+<strong id="showMaterial">
+-
+</strong>
+
+</div>
+
+
+
+<div class="info-line">
+
+<span>
+رنگ:
+</span>
+
+<strong id="showColor">
+-
+</strong>
+
+</div>
+
+
+
+<div class="info-line">
+
+<span>
+سایز:
+</span>
+
+<strong id="showSize">
+-
+</strong>
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+<!-- TECHNICAL FEATURES -->
+
+<div class="technical-box">
+
+
+<h3>
+مشخصات فنی
+</h3>
+
+
+<ul>
+
+
+<li>
+استیل 304 ضد زنگ
+</li>
+
+
+<li>
+ساخت دقیق و دست ساز
+</li>
+
+
+<li>
+دارای سوپاپ ضد بو و سوسک گیر
+</li>
+
+
+<li>
+قابل سفارش در رنگ های PVD و استاتیک
+</li>
+
+
+<li>
+مناسب حمام، آشپزخانه و فضاهای لوکس
+</li>
+
+
+</ul>
+
+
+</div>
+
+
+
+
+
+
+<!-- QR CODE -->
+
+<div class="qr-area">
+
+
+<div 
+id="qrCode">
+</div>
+
+
+
+<span>
+اسکن جهت مشاهده محصولات AGER
+</span>
+
+
+</div>
+
+
+
+
+
+
+<!-- BRAND FOOTER -->
+
+
+<footer class="catalog-footer">
+
+
+<div>
+
+<img 
+id="footerLogo"
+src="assets/logo/ager-logo.png"
+alt="AGER Logo"
+>
+
+
+</div>
+
+
+
+<div class="contact">
+
+
+<p>
+09121974421
+</p>
+
+
+<p>
+09125483963
+</p>
+
+
+<p>
+Instagram:
+ager.co
+</p>
+
+
+</div>
+
+
+
+</footer>
+
+
+
+
+
+</div>
+
+
+</section>
+
+
+</main>
+
+
+
+
+
+
+<!-- =========================
+     STATUS PANEL
+========================= -->
+
+
+<div id="statusMessage">
+
+آماده طراحی کاتالوگ AGER
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+
+
+<!-- =========================
+     JAVASCRIPT MODULES
+========================= -->
+
+
 <script src="js/colors.js"></script>
+
 <script src="js/sizes.js"></script>
+
 <script src="js/images.js"></script>
-<script src="js/export.js"></script>
+
 <script src="js/app.js"></script>
+
+<script src="js/export.js"></script>
+
+
 
 </body>
 
