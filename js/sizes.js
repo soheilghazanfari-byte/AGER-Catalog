@@ -1,101 +1,376 @@
-// =====================================
-// sizes.js
-// =====================================
+/* =====================================
+   AGER Catalog Builder
+   sizes.js
 
-const sizes = [
-    "10×10",
-    "30",
-    "40",
-    "50",
-    "60",
-    "70",
-    "80",
-    "90",
-    "100",
-    "110",
-    "120"
-];
+   Product Size Manager
+===================================== */
 
-function loadSizes() {
 
-    const container = document.getElementById("sizes");
-    const preview = document.getElementById("previewSizes");
 
-    container.innerHTML = "";
+const AGER_SIZES = {
 
-    sizes.forEach(size => {
 
-        const label = document.createElement("label");
+    square:[
 
-        label.style.display = "block";
-        label.style.marginBottom = "6px";
+        {
+            id:"10x10",
+            title:"10 × 10 سانتی متر"
+        },
 
-        label.innerHTML = `
-            <input type="checkbox" value="${size}">
-            ${size}
-        `;
 
-        container.appendChild(label);
+        {
+            id:"15x15",
+            title:"15 × 15 سانتی متر"
+        },
 
-    });
 
-    const checkboxes = container.querySelectorAll("input");
+        {
+            id:"20x20",
+            title:"20 × 20 سانتی متر"
+        }
 
-    function updatePreview() {
+    ],
 
-        const selected = [];
 
-        checkboxes.forEach(box => {
 
-            if(box.checked){
+    linear:[
 
-                selected.push(box.value);
+        {
+            id:"30",
+            title:"30 سانتی متر"
+        },
 
-            }
 
-        });
+        {
+            id:"40",
+            title:"40 سانتی متر"
+        },
 
-        preview.textContent =
-            selected.length
-            ? "سایزها : " + selected.join(" - ")
-            : "";
+
+        {
+            id:"50",
+            title:"50 سانتی متر"
+        },
+
+
+        {
+            id:"60",
+            title:"60 سانتی متر"
+        },
+
+
+        {
+            id:"70",
+            title:"70 سانتی متر"
+        },
+
+
+        {
+            id:"80",
+            title:"80 سانتی متر"
+        },
+
+
+        {
+            id:"90",
+            title:"90 سانتی متر"
+        },
+
+
+        {
+            id:"100",
+            title:"100 سانتی متر"
+        },
+
+
+        {
+            id:"110",
+            title:"110 سانتی متر"
+        },
+
+
+        {
+            id:"120",
+            title:"120 سانتی متر"
+        }
+
+    ],
+
+
+
+
+    custom:[
+
+        {
+            id:"custom",
+            title:"سایز سفارشی"
+        }
+
+    ]
+
+};
+
+
+
+
+
+
+
+/* =====================================
+   ELEMENTS
+===================================== */
+
+
+const productModel =
+document.getElementById(
+    "productModel"
+);
+
+
+const sizeSelect =
+document.getElementById(
+    "sizeSelect"
+);
+
+
+
+
+
+
+
+/* =====================================
+   LOAD SIZE LIST
+===================================== */
+
+
+function loadSizes(model){
+
+
+    if(!sizeSelect)
+        return;
+
+
+
+    sizeSelect.innerHTML="";
+
+
+
+    let sizes=[];
+
+
+
+    if(
+        model==="linear"
+    ){
+
+        sizes =
+        AGER_SIZES.linear;
 
     }
 
-    checkboxes.forEach(box=>{
 
-        box.addEventListener("change",updatePreview);
+
+    else if(
+        model==="square" ||
+        model==="zigzag"
+    ){
+
+        sizes =
+        AGER_SIZES.square;
+
+    }
+
+
+
+    else if(
+        model==="custom"
+    ){
+
+        sizes =
+        AGER_SIZES.custom;
+
+    }
+
+
+
+
+    else{
+
+
+        sizeSelect.innerHTML =
+        `
+        <option>
+        ابتدا مدل را انتخاب کنید
+        </option>
+        `;
+
+
+        return;
+
+    }
+
+
+
+
+
+
+
+    sizes.forEach(size=>{
+
+
+        const option =
+        document.createElement(
+            "option"
+        );
+
+
+
+        option.value =
+        size.id;
+
+
+
+        option.textContent =
+        size.title;
+
+
+
+        sizeSelect.appendChild(
+            option
+        );
+
+
 
     });
 
-    document
-    .getElementById("selectAll")
-    .addEventListener("click",()=>{
 
-        checkboxes.forEach(box=>{
 
-            box.checked=true;
-
-        });
-
-        updatePreview();
-
-    });
-
-    document
-    .getElementById("clearAll")
-    .addEventListener("click",()=>{
-
-        checkboxes.forEach(box=>{
-
-            box.checked=false;
-
-        });
-
-        updatePreview();
-
-    });
-
-    updatePreview();
+    sizeSelect.dispatchEvent(
+        new Event("change")
+    );
 
 }
+
+
+
+
+
+
+
+
+/* =====================================
+   MODEL CHANGE
+===================================== */
+
+
+if(productModel){
+
+
+productModel.addEventListener(
+"change",
+function(){
+
+
+    loadSizes(
+        this.value
+    );
+
+
+});
+
+
+}
+
+
+
+
+
+
+
+
+/* =====================================
+   SIZE CHANGE
+===================================== */
+
+
+if(sizeSelect){
+
+
+sizeSelect.addEventListener(
+"change",
+function(){
+
+
+
+    const selected =
+    this.options[
+        this.selectedIndex
+    ];
+
+
+
+    const showSize =
+    document.getElementById(
+        "showSize"
+    );
+
+
+
+    if(showSize && selected){
+
+
+        showSize.textContent =
+        selected.textContent;
+
+
+    }
+
+
+
+
+    document.dispatchEvent(
+
+        new CustomEvent(
+            "agerSizeChanged",
+            {
+
+                detail:{
+
+                    id:this.value,
+
+                    title:
+                    selected.textContent
+
+                }
+
+            }
+
+        )
+
+    );
+
+
+
+});
+
+
+}
+
+
+
+
+
+
+
+
+/* =====================================
+   PUBLIC ACCESS
+===================================== */
+
+
+window.AGER_SIZES =
+AGER_SIZES;
+
+
+window.loadAGERSizes =
+loadSizes;
