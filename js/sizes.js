@@ -4,9 +4,6 @@
 
    Product Size Manager
 ===================================== */
-
-
-
 const AGER_SIZES = [
 
     "10×10",
@@ -29,7 +26,9 @@ const AGER_SIZES = [
 
     "110",
 
-    "120"
+    "120",
+
+    "سفارشی"
 
 ];
 /* =====================================
@@ -59,30 +58,23 @@ document.getElementById(
 ===================================== */
 
 
-function loadSizes(model){
+function loadSizes() {
 
+    sizeSelect.innerHTML = "";
 
-    if(!sizeSelect)
-        return;
+    AGER_SIZES.forEach(size => {
 
+        const option = document.createElement("option");
 
+        option.value = size;
 
-    sizeSelect.innerHTML="";
+        option.textContent = size;
 
+        sizeSelect.appendChild(option);
 
+    });
 
-    let sizes=[];
-
-
-
-    if(
-        model==="linear"
-    ){
-
-        sizes =
-        AGER_SIZES.linear;
-
-    }
+}}
 
 
 
