@@ -1,166 +1,88 @@
-// =====================================
-// AGER Catalog Builder v2
+// ======================================
+// AGER Catalog Builder
 // app.js
-// =====================================
+// ======================================
 
-// محل ساخت برنامه
-const app = document.getElementById("app");
+document.addEventListener("DOMContentLoaded", () => {
 
-// ساخت رابط کاربری
-app.innerHTML = `
-<div class="sidebar">
+    const modelName = document.getElementById("modelName");
+    const material = document.getElementById("material");
+    const color = document.getElementById("color");
 
-    <h1>AGER</h1>
-    <p>Catalog Builder</p>
+    const previewName = document.getElementById("previewName");
+    const previewMaterial = document.getElementById("previewMaterial");
+    const previewColor = document.getElementById("previewColor");
 
-    <label>نام مدل</label>
-    <input type="text" id="modelName" placeholder="مثلاً زیگزاگ">
+    // لیست جنس ها
 
-    <label>جنس</label>
-    <select id="material">
-        <option>استیل 304 دست ساز</option>
-        <option>استیل 304 پرسی</option>
-        <option>ABS/استیل</option>
-        <option>برنجی</option>
-    </select>
+    const materials = [
 
-    <label>رنگ</label>
-    <select id="color"></select>
+        "استیل 304 دست ساز",
 
-    <label>سایزها</label>
+        "استیل 304 پرسی",
 
-    <div id="sizes"></div>
+        "ABS/استیل",
 
-    <button id="selectAll">
-        انتخاب همه سایزها
-    </button>
+        "برنجی"
 
-    <button id="clearAll">
-        حذف همه
-    </button>
+    ];
 
-    <label>عکس محیط</label>
+    material.innerHTML = "";
 
-    <input type="file"
-           id="heroInput"
-           accept="image/*">
+    materials.forEach(item=>{
 
-    <label>عکس محصول</label>
+        const option=document.createElement("option");
 
-    <input type="file"
-           id="productInput"
-           accept="image/*">
+        option.value=item;
 
-</div>
+        option.textContent=item;
 
-<div class="workspace">
+        material.appendChild(option);
 
-<div class="page">
+    });
 
-<div class="header">
+    // نام مدل
 
-<h1>AGER</h1>
+    modelName.addEventListener("input",()=>{
 
-<p>Premium Floor Drain</p>
+        if(modelName.value.trim()==""){
 
-</div>
+            previewName.textContent="نام مدل";
 
-<div class="hero" id="hero">
+        }else{
 
-عکس محیط
+            previewName.textContent=modelName.value;
 
-</div>
+        }
 
-<div class="content">
+    });
 
-<div class="thumb" id="thumb">
+    // مقدار اولیه
 
-عکس محصول
+    previewMaterial.textContent=material.value;
 
-</div>
+    // راه اندازی فایل ها
 
-<div class="details">
+    loadColors();
 
-<h2 id="previewName">
+    loadSizes();
 
-نام مدل
+    loadImages();
+    // تغییر جنس در پیش‌نمایش
+    material.addEventListener("change", () => {
 
-</h2>
+        previewMaterial.textContent = material.value;
 
-<p>
+    });
 
-<strong>جنس :</strong>
+    // تغییر رنگ در پیش‌نمایش
+    color.addEventListener("change", () => {
 
-<span id="previewMaterial">
+        previewColor.textContent = color.value;
 
-استیل 304 دست ساز
+    });
 
-</span>
-
-</p>
-
-<p>
-
-<strong>رنگ :</strong>
-
-<span id="previewColor">
-
-سیلور
-
-</span>
-
-</p>
-
-<p id="previewSizes"></p>
-
-<p>
-
-<strong>
-
-دارای سوپاپ (سوسکگیر)
-
-</strong>
-
-</p>
-
-</div>
-
-</div>
-
-<div class="footer">
-
-<div>
-
-AGER
-
-</div>
-
-<div>
-
-Instagram : @ager.co
-
-</div>
-
-<div>
-
-09121974421
-
-<br>
-
-09125483963
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-`;
-// ==============================
-// شروع برنامه
-// ==============================
-
-loadColors();
-loadSizes();
-loadImages();
+    // مقدار اولیه
+    previewName.textContent = "نام مدل";
+    previewMaterial.textContent = material.value;
+});
