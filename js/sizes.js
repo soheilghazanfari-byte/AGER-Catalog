@@ -66,6 +66,13 @@ if(!customSizeInput){
 
 function loadSizes(){
 
+    console.log("loadSizes اجرا شد");
+
+    if(!sizeSelect)
+        return;
+
+    sizeSelect.innerHTML="";
+
     if(!sizeSelect)
         return;
 
