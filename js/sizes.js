@@ -174,17 +174,7 @@ function loadSizes() {
 if(productModel){
 
 
-productModel.addEventListener(
-"change",
-function(){
 
-
-    loadSizes(
-        this.value
-    );
-
-
-});
 
 
 }
@@ -282,3 +272,8 @@ AGER_SIZES;
 
 window.loadAGERSizes =
 loadSizes;
+document.addEventListener("DOMContentLoaded", () => {
+
+    loadSizes();
+
+});
